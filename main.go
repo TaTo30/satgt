@@ -31,7 +31,7 @@ func main() {
 	app := pocketbase.New()
 
 	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
-		se.Router.GET("/satgt/fel", func(re *core.RequestEvent) error {
+		se.Router.GET("/api/satgt/fel", func(re *core.RequestEvent) error {
 			sessionFetcher := &session.SatSSOFEL{}
 			session, err := sessionFetcher.FetchSession(false)
 
@@ -46,7 +46,7 @@ func main() {
 
 	// Enable this function to download data from official SAT portal
 	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
-		se.Router.GET("/satgt/dte", func(re *core.RequestEvent) error {
+		se.Router.GET("/api/satgt/dte", func(re *core.RequestEvent) error {
 			execute := func(year int, month int, opType string, session *session.SatSession) int {
 				log.Printf("Fetching data for %d/%d\n", month, year)
 				params := dte.FetchDTEParameters(month, year, opType)

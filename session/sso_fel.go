@@ -37,7 +37,8 @@ type SatSSOFEL struct{}
 func (s *SatSSOFEL) FetchSession(forceWindow bool) (*SatSession, error) {
 	opts := append(
 		chromedp.DefaultExecAllocatorOptions[:],
-		chromedp.Flag("headless", false),
+		chromedp.Flag("headless", true),
+		chromedp.Flag("no-sandbox", true),
 	)
 
 	allocCtx, cancelAlloc := chromedp.NewExecAllocator(context.Background(), opts...)

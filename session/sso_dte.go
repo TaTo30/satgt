@@ -44,14 +44,19 @@ func (s *SatSSODTE) FetchSession(forceWindow bool) (*SatSession, error) {
 	} else {
 		if userNit == "" || userPass == "" {
 			setHeadless = false
-			log.Println("SATGT_USERNIT or SATGT_USERPASS environment variables are not set. Opening a visible browser window for manual login.")
+			log.Println("SATGT_USERNIT or SATGT_USERPASSWORD environment variables are not set. Opening a visible browser window for manual login.")
 		}
 	}
 
+	log.Println("Starting browser with headless mode:", setHeadless)
 	opts := append(
 		chromedp.DefaultExecAllocatorOptions[:],
-		chromedp.Flag("headless", setHeadless),
+		chromedp.Flag("no-sandbox", true),
 	)
+
+	if setHeadless {
+		opts = append(opts, chromedp.Flag("headless", true))
+	}
 
 	allocCtx, cancelAlloc := chromedp.NewExecAllocator(context.Background(), opts...)
 	defer cancelAlloc()
